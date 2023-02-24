@@ -1,24 +1,30 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3913517 */
-  src: url('iconfont.woff2?t=1677164003907') format('woff2'),
-       url('iconfont.woff?t=1677164003907') format('woff'),
-       url('iconfont.ttf?t=1677164003907') format('truetype');
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1677218767813') format('woff2'),
+       url('iconfont.woff?t=1677218767813') format('woff'),
+       url('iconfont.ttf?t=1677218767813') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-douyin1:before {
-  content: "\e8db";
+.icon-github1:before {
+  content: "\e63a";
 }
 
-.icon-github:before {
-  content: "\ea0b";
+.icon-bilibili1:before {
+  content: "\e606";
+}
+
+.icon-zhihu:before {
+  content: "\ea8b";
 }
 
 .icon-gitee:before {
@@ -31,14 +37,6 @@
 
 .icon-baidu:before {
   content: "\e612";
-}
-
-.icon-29:before {
-  content: "\e619";
-}
-
-.icon-bilibili:before {
-  content: "\e609";
 }
 
 .icon-douyin:before {
