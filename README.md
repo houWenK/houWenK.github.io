@@ -1,6 +1,6 @@
 # houWenK.github.io
 
-侯文科的个人博客(hexo+github)https://houwenk.github.io/
+侯文科的个人博客(hexo+github)http://houwenke.top
 
 ## 1.准备 ##
 
