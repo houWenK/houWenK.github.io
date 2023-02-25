@@ -57,3 +57,37 @@
 	background-image: url("../img/banner.png"), 
 	linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), 
 }
+
+.layout>#post{
+    background: rgba(255,255,255,.8);
+}
+#aside-content>.sticky_layout>.card-widget{
+    background: rgba(255,255,255,.8);
+}
+/*侧边栏页面*/
+#aside-content>.card-widget  {
+	background: rgba(255,255,255,0.8);
+}
+[data-theme=dark] #aside-content>.card-widget  {
+	background: rgba(22, 18, 18, 0.8);
+}
+[data-theme=dark] #aside-content>.sticky_layout>.card-widget{
+    background: rgba(25,25,25,.8);
+}
+[data-theme=dark] .layout>#post{
+    background: rgba(25,25,25,.8);
+}
+
+/*白天主题下的配置*/
+#aside-content>.card-widget.card-info {
+    /*换成自己图片的地址*/
+    background-image: url('./pg_2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-size: 100%
+}
+/*黑暗主题下的配置*/
+[data-theme=dark] #aside-content>.card-widget.card-info {
+    /*换成自己图片的地址*/
+    background-image: url('./pg_1.png') !important
+}
