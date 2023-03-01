@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>yolov7笔记 | houWenk's Blog</title><meta name="author" content="houWenk"><meta name="copyright" content="houWenk"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="YOLOV7是什么YOLO算法作为one-stage目标检测算法最典型的代表，其基于深度神经网络进行对象的识别和定位，运行速度很快，可以用于实时系统。YOLOV7是目前YOLO系列最先进的算法，在准确率和速度上超越了以往的YOLO系列。了解YOLO是对目标检测算法研究的一个必须步骤。 网络框架架构图总览  CBS模块解读 对于CBS模块，我们可以看从图中可以看出它是由一个Conv层，也就是卷积层，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yolov7笔记">
+<meta property="og:url" content="http://houwenke.top/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="houWenk&#39;s Blog">
+<meta property="og:description" content="YOLOV7是什么YOLO算法作为one-stage目标检测算法最典型的代表，其基于深度神经网络进行对象的识别和定位，运行速度很快，可以用于实时系统。YOLOV7是目前YOLO系列最先进的算法，在准确率和速度上超越了以往的YOLO系列。了解YOLO是对目标检测算法研究的一个必须步骤。 网络框架架构图总览  CBS模块解读 对于CBS模块，我们可以看从图中可以看出它是由一个Conv层，也就是卷积层，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://houwenke.top/medias/p2.png">
+<meta property="article:published_time" content="2023-03-01T03:03:13.000Z">
+<meta property="article:modified_time" content="2023-03-01T11:57:31.314Z">
+<meta property="article:author" content="houWenk">
+<meta property="article:tag" content="yolov7">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://houwenke.top/medias/p2.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://houwenke.top/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'yolov7笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-01 19:57:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/font.css"> <link rel="stylesheet" href="/css/myStyle.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于作者</span></a></div><div class="menus_item"><a class="site-page" href="/support/"><i class="fa-fw fas fa-support-copy"></i><span> 支持作者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/medias/p2.png')"><nav id="nav"><span id="blog-info"><a href="/" title="houWenk's Blog"><span class="site-name">houWenk's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于作者</span></a></div><div class="menus_item"><a class="site-page" href="/support/"><i class="fa-fw fas fa-support-copy"></i><span> 支持作者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">yolov7笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-01T03:03:13.000Z" title="发表于 2023-03-01 11:03:13">2023-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-01T11:57:31.314Z" title="更新于 2023-03-01 19:57:31">2023-03-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/deep-learning/">deep learning</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="yolov7笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="YOLOV7是什么"><a href="#YOLOV7是什么" class="headerlink" title="YOLOV7是什么"></a>YOLOV7是什么</h2><p>YOLO算法作为one-stage目标检测算法最典型的代表，其基于深度神经网络进行对象的识别和定位，运行速度很快，可以用于实时系统。<br>YOLOV7是目前YOLO系列最先进的算法，在准确率和速度上超越了以往的YOLO系列。<br>了解YOLO是对目标检测算法研究的一个必须步骤。</p>
+<h2 id="网络框架"><a href="#网络框架" class="headerlink" title="网络框架"></a>网络框架</h2><h3 id="架构图总览"><a href="#架构图总览" class="headerlink" title="架构图总览"></a>架构图总览</h3><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/yolov7%E7%BB%93%E6%9E%84%E5%9B%BE.png" class="">
+
+<h3 id="CBS模块解读"><a href="#CBS模块解读" class="headerlink" title="CBS模块解读"></a>CBS模块解读</h3><ul>
+<li><p>对于CBS模块，我们可以看从图中可以看出它是由一个Conv层，也就是卷积层，一个BN层，也就是Batch normalization层，还有一个Silu层，这是一个激活函数。</p>
+</li>
+<li><p>silu激活函数是swish激活函数的变体，两者的公式如下所示</p>
+</li>
+<li><p>$$<br>silu(x)&#x3D;x⋅sigmoid(x)<br>$$</p>
+</li>
+<li><p>$$<br>swish(x)&#x3D;x⋅sigmoid(βx)<br>$$</p>
+</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/silu%E5%9B%BE%E5%83%8F-1677671832255.png" class="">
+</li>
+<li><p>从架构图中我们可以看出，CBS模块这里有三种颜色，三种颜色代表它们的卷积核（k）和步长(s)不同。</p>
+</li>
+<li><p>首先最浅的颜色，也就是第一个CBS模块的颜色，它是一个1x1的卷积，stride(步长为1)。</p>
+</li>
+<li><p>其次稍浅的颜色，也就是第二个CBS模块的颜色，它是一个3x3的卷积，stride(步长为1)。</p>
+</li>
+<li><p>最后最深的颜色，也就是第三个CBS模块的颜色，它是一个3x3的卷积，stride(步长为2)。</p>
+</li>
+<li><p>1x1的卷积主要用来改变通道数。</p>
+</li>
+<li><p>3x3的卷积，步长为1，主要用来特征提取</p>
+</li>
+<li><p>3x3的卷积，步长为2，主要用来下采样。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/cbs.png" class=""></li>
+</ul>
+<h3 id="CBW模块解读"><a href="#CBW模块解读" class="headerlink" title="CBW模块解读"></a>CBW模块解读</h3><ul>
+<li>CBW模块和CBS模块，我们可以看出来是基本一致的。</li>
+<li>由一个Conv层，也就是卷积层，一个BN层，也就是Batch normalization层，还有一个sigmoid层，这是一个激活函数。</li>
+<li>卷积核为1x1，stride(步长为1)</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/cbw-1677671574704.png" class=""></li>
+</ul>
+<h3 id="REP模块解读"><a href="#REP模块解读" class="headerlink" title="REP模块解读"></a>REP模块解读</h3><ul>
+<li>REP模块分为两个，一个是train，也就是训练，一个deploy，也就是推理。</li>
+<li>训练模块，它有三个分支。<br><em><strong>最上面的分支是3x3的卷积，用于特征提取。<br>中间的分支是1x1的卷积，用于平滑特征。<br>最后分支是一个Identity，不做卷积操作，直接移过来。</strong></em><br>最后把它们相加在一起。</li>
+<li>推理模块，包含一个3x3的卷积，stride(步长为1)。是由训练模块重参数化转换而来。<br>在训练模块中，因为第一层是一个3x3的卷积，第二层是一个1x1的卷积，最后层是一个Identity。<br>在模型从参数化的时候，需要把1x1的卷积啊，转换成3x3的卷积，把Identity也转换成3x3的卷积，然后进行一个矩阵的一个加法，也就是一个矩阵融合过程。<br>然后最后将它的权重进行相加，就得到了一个3x3的卷积，也就是说，这三个分支就融合成了一条线，里面只有一个3x3的卷积。<br>它们的权重是三个分支的叠加结果，矩阵，也是三个分支的叠加结果。</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a33893b43a93405baeae2bce6d7c34c6.png" class="" title="在这里插入图片描述"></li>
+</ul>
+<h3 id="MP模块解读"><a href="#MP模块解读" class="headerlink" title="MP模块解读"></a>MP模块解读</h3><ul>
+<li>MP模块有两个分支，作用是进行下采样。</li>
+<li>第一条分支先经过一个maxpool，也就是最大池化。最大值化的作用就是下采样，然后再经过一个1x1的卷积进行通道数的改变。</li>
+<li>第二条分支先经过一个1x1的卷积，做通道数的变化，然后再经过一个3x3卷积核、步长为2的卷积块，这个卷积块也是用来下采样的。</li>
+<li>最后把第一个分支和第二分支的结果加在一起，得到了超级下采样的结果。</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/mp.png" class=""></li>
+</ul>
+<h3 id="ELAN模块解读"><a href="#ELAN模块解读" class="headerlink" title="ELAN模块解读"></a>ELAN模块解读</h3><ul>
+<li>ELAN模块是一个高效的网络结构，它通过控制最短和最长的梯度路径，使网络能够学习到更多的特征，并且具有更强的鲁棒性。</li>
+<li>ELAN有两条分支。</li>
+<li>第一条分支是经过一个1x1的卷积做通道数的变化。</li>
+<li>第二条分支就比较复杂了。它先首先经过一个1x1的卷积模块，做通道数的变化。然后再经过四个3x3的卷积模块，做特征提取。<br>如图所示，最后把四个特征叠加在一起得到最后的特征提取结果。</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/elan.png" class=""></li>
+</ul>
+<h3 id="ELAN-W模块解读"><a href="#ELAN-W模块解读" class="headerlink" title="ELAN-W模块解读"></a>ELAN-W模块解读</h3><ul>
+<li>对于ELAN-W模块，我们也看到它跟ELAN模块是非常的相似，所略有不同的就是它在第二条分支的时候选取的输出数量不同。</li>
+<li>ELAN模块选取了三个输出进行最后的相加。</li>
+<li>ELAN-W模块选取了五个进行相加。</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/elan_w.png" class=""></li>
+</ul>
+<h3 id="UPSample模块解读"><a href="#UPSample模块解读" class="headerlink" title="UPSample模块解读"></a>UPSample模块解读</h3><ul>
+<li>UPSample模块是一个上采样的模块，它使用的上采样方式是<strong>最近邻插值</strong>。</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/upsample.png" class=""></li>
+</ul>
+<h3 id="SPPCSPC模块解读"><a href="#SPPCSPC模块解读" class="headerlink" title="SPPCSPC模块解读"></a>SPPCSPC模块解读</h3><ul>
+<li><p>SPP的作用是能够增大感受野，使得算法适应不同的分辨率图像，它是通过最大池化来获得不同感受野。</p>
+<p>我们可以看到在第一条分支中，经理了maxpool的有四条分支。分别是5，9，13，1，这四个不同的maxpool就代表着他能够处理不同的对象。<br>也就是说，它这四个不同尺度的最大池化有四种感受野，用来区别于大目标和小目标。<br>比如一张照片中的狗和行人以及车，他们的尺度是不一样的，通过不同的maxpool，这样子就能够更好的区别小目标和大目标。</p>
+</li>
+<li><p>CSP模块，首先将特征分为两部分，其中的一个部分进行常规的处理，另外一个部分进行SPP结构的处理，最后把这两个部分合并在一起，这样子就能够减少一半的计算量，使得速度变得快，精度反而会提升。</p>
+</li>
+<li><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/sppcspc.png" class=""></li>
+</ul>
+<h2 id="Backbone"><a href="#Backbone" class="headerlink" title="Backbone"></a>Backbone</h2><ul>
+<li><p>结构如图</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/backbone%E7%BB%93%E6%9E%84%E5%9B%BE.png" class="">
+</li>
+<li><p>总共有 50 层, 我在上图用黑色数字把关键层数标示出来了。<br>首先是经过 4 层卷积层，如下图，CBS 主要是 Conv + BN + SiLU 构成，我在图中用不同的颜色表示不同的 size 和 stride, 如 (3, 2) 表示卷积核大小为 3 ，步长为 2。 在 config 中的配置如图。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/config-1677670991958.png" class="">
+
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_1.png" class="">
+
+
+</li>
+<li><p>经过 4个 CBS 后，特征图变为 160 * 160 * 128 大小。随后会经过论文中提出的 ELAN 模块，ELAN 由多个 CBS 构成，其输入输出特征大小保持不变，通道数在开始的两个 CBS 会有变化， 后面的几个输入通道都是和输出通道保持一致的，经过最后一个 CBS 输出为需要的通道。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_2.png" class="">
+
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_3.png" class="">
+
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_4.png" class="">
+</li>
+<li><p>MP 层 主要是分为 Maxpool 和 CBS , 其中 MP1 和 MP2 主要是通道数的比变化。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_5.png" class="">
+</li>
+<li><p>backbone的基本组件就介绍完了，我们整体来看下 backbone，经过 4 个 CBS 后，接入例如一个 ELAN ，然后后面就是三个 MP + ELAN 的输出，对应的就是 C3&#x2F;C4&#x2F;C5 的输出，大小分别为 80 * 80 * 512 ， 40 * 40 * 1024， 20 * 20 * 1024。 每一个 MP 由 5 层， ELAN 有 8 层， 所以整个 backbone 的层数为 4 + 8 + 13 * 3 &#x3D; 51 层， 从 0 开始的话，最后一层就是第 50 层。</p>
+</li>
+</ul>
+<h2 id="Head"><a href="#Head" class="headerlink" title="Head"></a>Head</h2><img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_6.png" class="">
+
+<ul>
+<li><p>YOLOV7 head 其实就是一个 pafpn 的结构，和之前的YOLOV4，YOLOV5 一样。首先，对于 backbone 最后输出的 32 倍降采样特征图 C5，然后经过 SPPCSP，通道数从1024变为512。先按照 top down 和 C4、C3融合，得到 P3、P4 和 P5；再按 bottom-up 去和 P4、P5 做融合。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_7.png" class="">
+
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_8.png" class="">
+</li>
+<li><p>这里基本和 YOLOV5 是一样的，区别在于将 YOLOV5 中的 CSP 模块换成了 ELAN-H 模块， 同时下采样变为了 MP2 层。 ELAN-H 模块是我自己命名的，它和 backbone 中的 ELAN 稍微有点区别就是 cat 的数量不同。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_9.png" class="">
+</li>
+<li><p>至于 E-ELAN 论文中说到是在 YOLOV7-E6eE中用到, 但是我在看代码的时候，有点没太明白是怎么做 shuffle 的，这里等我弄明白了再补上来。</p>
+</li>
+<li><p>对于 pafpn 输出的 P3、P4 和 P5 ， 经过 RepConv 调整通道数，最后使用 1x1 卷积去预测 objectness、class 和 bbox 三部分。<br>RepConv 在训练和推理是有一定的区别。训练时有三个分支的相加输出，部署时会将分支的参数重参数化到主分支上。</p>
+<img src="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/a_10.png" class=""></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://houwenke.top">houWenk</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://houwenke.top/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/">http://houwenke.top/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://houwenke.top" target="_blank">houWenk's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/yolov7/">yolov7</a></div><div class="post_share"><div class="social-share" data-image="/medias/p2.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN-%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/" title="CNN笔记"><img class="cover" src="/medias/p1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CNN笔记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">houWenk</div><div class="author-info__description">路漫漫其修远兮，吾将上下而求索</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://space.bilibili.com/290536875?spm_id_from=333.788.0.0" target="_blank" title="bilibili"><i class="iconfont icon-bilibili1"></i></a><a class="social-icon" href="mailto:454305202@qq.com" target="_blank" title="邮箱"><i class="iconfont icon-youxiang"></i></a><a class="social-icon" href="tencent://message/?uin=2105095848&amp;Site=Sambow&amp;Menu=yes" target="_blank" title="QQ"><i class="iconfont icon-qq"></i></a><a class="social-icon" href="https://weibo.com/u/5362865500" target="_blank" title="微博"><i class="iconfont icon-microblog"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_40625979?type=blog" target="_blank" title="CSDN"><i class="iconfont icon-csdn"></i></a><a class="social-icon" href="https://tieba.baidu.com/home/main?id=tb.1.8344362b.UPVOjj5jkQ1TmQCsREcPMw?t=1511057048&amp;fr=index" target="_blank" title="百度贴吧"><i class="iconfont icon-baidu"></i></a><a class="social-icon" href="https://www.zhihu.com/people/chou-xiao-zi-17-58" target="_blank" title="知乎"><i class="iconfont icon-zhihu"></i></a><a class="social-icon" href="https://github.com/houWenK" target="_blank" title="Github"><i class="iconfont icon-github1"></i></a><a class="social-icon" href="https://gitee.com/houwenke1" target="_blank" title="Gitee"><i class="iconfont icon-gitee"></i></a><a class="social-icon" href="https://v.douyin.com/BEUu7w1/" target="_blank" title="抖音"><i class="iconfont icon-douyin"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">作者邮箱：454305202@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#YOLOV7%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">YOLOV7是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">网络框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E5%9B%BE%E6%80%BB%E8%A7%88"><span class="toc-number">2.1.</span> <span class="toc-text">架构图总览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CBS%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.2.</span> <span class="toc-text">CBS模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CBW%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.3.</span> <span class="toc-text">CBW模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REP%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.4.</span> <span class="toc-text">REP模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MP%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.5.</span> <span class="toc-text">MP模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ELAN%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.6.</span> <span class="toc-text">ELAN模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ELAN-W%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.7.</span> <span class="toc-text">ELAN-W模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UPSample%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.8.</span> <span class="toc-text">UPSample模块解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SPPCSPC%E6%A8%A1%E5%9D%97%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.9.</span> <span class="toc-text">SPPCSPC模块解读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backbone"><span class="toc-number">3.</span> <span class="toc-text">Backbone</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Head"><span class="toc-number">4.</span> <span class="toc-text">Head</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/" title="yolov7笔记"><img src="/medias/p2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="yolov7笔记"/></a><div class="content"><a class="title" href="/2023/03/01/yolov7%E7%AC%94%E8%AE%B0/" title="yolov7笔记">yolov7笔记</a><time datetime="2023-03-01T03:03:13.000Z" title="发表于 2023-03-01 11:03:13">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN-%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/" title="CNN笔记"><img src="/medias/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CNN笔记"/></a><div class="content"><a class="title" href="/2023/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN-%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/" title="CNN笔记">CNN笔记</a><time datetime="2023-02-28T06:07:01.000Z" title="发表于 2023-02-28 14:07:01">2023-02-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/25/%E7%9C%8B%E6%9D%BF%E5%A8%98/" title="加入看板娘与自定义看板娘"><img src="/medias/page3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="加入看板娘与自定义看板娘"/></a><div class="content"><a class="title" href="/2023/02/25/%E7%9C%8B%E6%9D%BF%E5%A8%98/" title="加入看板娘与自定义看板娘">加入看板娘与自定义看板娘</a><time datetime="2023-02-25T01:43:16.000Z" title="发表于 2023-02-25 09:43:16">2023-02-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By houWenk</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script defer src="/live2d-widget-master/autoload.js"></script> <script src="/js/jquery.js"></script> <script src="/js/foot.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
